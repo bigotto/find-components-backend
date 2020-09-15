@@ -24,12 +24,14 @@ app.post('/signup', async (req, res) => {
 })
 
 app.get('/db', async (req, res) => {
-    const total = await db('components')
-        .select('name', 'number', 'position')
+    const { name } = req.query;
+    
+    const components = await db('components')
+        .select('components.id', 'name', 'number', 'position')
         .join('gavetas', 'components.id', 'gavetas.component')
-        .where('name', 'ilike', '%CAPACITOR%');
+        .where('name', 'ilike', `%${name}%`);
 
-    return res.status(202).send(total);
+    return res.send(components);
 })
 
 app.listen(port, () => {
