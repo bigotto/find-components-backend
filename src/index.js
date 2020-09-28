@@ -4,7 +4,7 @@ const createUser = require('./utils/firebase/createUser');
 const login = require('./utils/firebase/login');
 const db = require('./database/connection');
 
-const port = 3333;
+const port = process.env.PORT || 3333;
 const app = express();
 app.use(cors());
 app.use(express.json());
