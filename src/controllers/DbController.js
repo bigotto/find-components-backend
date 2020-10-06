@@ -1,15 +1,16 @@
 const { listenerCount } = require("../database/connection");
 const db = require('../database/connection');
+const { search, getAll } = require("../database/search");
 
 module.exports = {
     async components(req, res) {
         const { name } = req.query;
 
-        const components = await db('components')
-            .select('components.id', 'name', 'number', 'position')
-            .join('gavetas', 'components.id', 'gavetas.component')
-            .where('name', 'ilike', `%${name}%`);
-
-        return res.send(components);
+        if(name === '**all**'){
+            const results = await getAll();
+            return res.send(results);
+        }
+        const results = await search(name);
+        return res.send(results);
     }
 }
