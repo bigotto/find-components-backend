@@ -2,13 +2,7 @@ const firebase = require('./connection');
 
 const createUser = async ({name, photo, email, password}) => {
     // Create user
-    const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(user => {
-            return user.user
-        })
-        .catch(error => {
-            return error
-        });
+    const {user} = await firebase.auth().createUserWithEmailAndPassword(email, password)
 
     // Update user
     if(!user.code){
@@ -19,6 +13,7 @@ const createUser = async ({name, photo, email, password}) => {
             return error
         })
     }
+    
     return user;
 };
 
